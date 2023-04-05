@@ -108,6 +108,7 @@ public class ClienteDAO {
             pst.setString(2, cVO.getEndereco());
             pst.setString(3, cVO.getTelefone());
             pst.setString(4, cVO.getCpf());
+            pst.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Erro ao atualizar CPF!\n"
                     + ex.getMessage());
