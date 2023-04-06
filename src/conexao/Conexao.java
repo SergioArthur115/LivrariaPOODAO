@@ -19,13 +19,12 @@ public class Conexao {
     private static String user = "root";//cria uma constante com um user do BD
     private static String pass = "";//cria uma constante com a senha do BD
 
-    public static Connection getConexao() {
+    public static Connection getConexao() throws SQLException {
         Connection c = null;
         try {
             c = DriverManager.getConnection(url, user, pass);
         } catch (SQLException e) {
-            System.out.println("Erro ao conectar banco!\n"
-                    + e.getMessage());
+            throw new SQLException("Erro ao conectar banco!\n" + e.getMessage());
         }
         return c;
     }

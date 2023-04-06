@@ -17,6 +17,8 @@ import model.Cliente;
 import model.Editora;
 import model.Livro;
 import model.VendaLivro;
+import services.ClienteServicos;
+import services.ServicosFactory;
 import util.Validadores;
 
 /**
@@ -98,6 +100,7 @@ public class LivrariaPOO {
         String cnpj = null;
         String endereco;
         String telefone;
+        ClienteServicos clienteS = ServicosFactory.getClienteServicos();
 
         System.out.println("|Cadastro de Cliente|");
         System.out.print("Informe o CPF:");
@@ -118,7 +121,7 @@ public class LivrariaPOO {
                 }
             }
         } while (!Validadores.isCPF(cpf));
-        if (cadCliente.getClienteCPF(cpf) != null) {
+        if (clienteS.buscarClienteByCOF(cpf).getCpf().isEmpty()) {
             System.out.println("Cliente já cadastrado!");
         } else {
             System.out.println("Informe o nome:");
@@ -144,7 +147,9 @@ public class LivrariaPOO {
             endereco = ler.nextLine();
             idCliente = cadCliente.geraID();
             Cliente cli = new Cliente(idCliente, nomeCliente, cpf, cnpj, endereco, telefone);
-            cadCliente.addCliente(cli);
+            //cadCliente.addCliente(cli);
+
+            clienteS.cadCliente(cli);
             System.out.println("Cliente cadastrado com sucesso!");
         }
     }
@@ -153,8 +158,9 @@ public class LivrariaPOO {
         System.out.println("|Editar Cliente|");
         System.out.print("Informe o CPF: ");
         String cpf = ler.nextLine();
+        ClienteServicos clienteS = ServicosFactory.getClienteServicos();
         if (Validadores.isCPF(cpf)) {
-            Cliente cli = cadCliente.getClienteCPF(cpf);
+            Cliente cli = clienteS.buscarClienteByCOF(cpf);
             if (cli != null) {
                 System.out.println("1 - Nome: " + cli.getNomeCliente());
                 System.out.println("2 - Endereço: " + cli.getEndereco());
@@ -179,6 +185,7 @@ public class LivrariaPOO {
                     System.out.println("Opção inválida");
                 }
                 System.out.println("Cliente: \n" + cli.toString());
+                clienteS.atualizarCliente(cli);
             } else {
                 System.out.println("Cliente não cadastrado!");
             }
@@ -188,7 +195,8 @@ public class LivrariaPOO {
     }
 
     public static void listarCliente() {
-        for (Cliente cli : cadCliente.getClientes()) {
+        ClienteServicos clienteS = ServicosFactory.getClienteServicos();
+        for (Cliente cli : clienteS.getClientes()) {
             System.out.println("\nCPF: " + cli.getCpf());
             System.out.println("Nome: " + cli.getNomeCliente());
             System.out.println("Telefone: " + cli.getTelefone());
@@ -199,10 +207,13 @@ public class LivrariaPOO {
         System.out.println("|Deletar Cliente|");
         System.out.print("Informe o CPF: ");
         String cpf = ler.nextLine();
+        ClienteServicos clienteS = ServicosFactory.getClienteServicos();
         if (Validadores.isCPF(cpf)) {
-            Cliente cli = cadCliente.getClienteCPF(cpf);
+            Cliente cli = clienteS.buscarClienteByCOF(cpf);
             if (cli != null) {
-                cadCliente.removeCliente(cli);
+                //cadCliente.removeCliente(cli);
+
+                clienteS.deletarCliente(cpf);
                 System.out.println("Cliente deletado com sucesso!");
             } else {
                 System.out.println("Cliente não consta na base de dados!");
@@ -222,8 +233,8 @@ public class LivrariaPOO {
 
         System.out.println("|Cadastro de Editora|");
         System.out.print("Informe o CNPJ:");
-        boolean cnpjis,tel;
-        int opCNPJ,opTel;
+        boolean cnpjis, tel;
+        int opCNPJ, opTel;
         do {
             cnpj = ler.nextLine();
             cnpjis = Validadores.isCNPJ(cnpj);
