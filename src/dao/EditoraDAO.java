@@ -12,24 +12,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import model.Cliente;
+import model.Editora;
 
 /**
  *
  * @author 182120042
  */
-public class ClienteDAO {
+public class EditoraDAO {
 
-    public void cadastrarClienteDAO(Cliente cVO) {       
+    public void cadastrarEditoraDAO(Editora cVO) {
         try {
             Connection con = Conexao.getConexao();//busca conexão com o BD
             String sql;
-            sql = "insert into clientes values (null,?,?,null,?,?)";
+            sql = "insert into editoras values (null,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);//cria espaço de trabalho SQL
-            pst.setString(1, cVO.getNomeCliente());
-            pst.setString(2, cVO.getCpf());
-            pst.setString(3, cVO.getEndereco());
-            pst.setString(4, cVO.getTelefone());
+            pst.setString(1, cVO.getNomeEditora());
+            pst.setString(2, cVO.getEndereco());
+            pst.setString(3, cVO.getTelefone());
+            pst.setString(4, cVO.getGerente());
+            pst.setString(5, cVO.getCnpj());
             pst.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Erro ao cadastrar!\n"
@@ -37,57 +38,59 @@ public class ClienteDAO {
         }
     }
 
-    public ArrayList<Cliente> getClientesDAO() {
-        ArrayList<Cliente>clientes=new ArrayList<>();
+    public ArrayList<Editora> getEditorasDAO() {
+        ArrayList<Editora> editoras = new ArrayList<>();
         try {
             Connection con = Conexao.getConexao();
             Statement stat = con.createStatement();
-            String sql = "Select * from clientes";
+            String sql = "Select * from editoras";
             ResultSet rs = stat.executeQuery(sql);
             while (rs.next()) {
-                Cliente c = new Cliente();
-                c.setIdCliente(rs.getInt("idcliente"));
-                c.setNomeCliente(rs.getString("nome"));
-                c.setCpf(rs.getString("cpf"));
-                c.setEndereco(rs.getString("endereco"));
-                c.setTelefone(rs.getString("telefone"));
-                clientes.add(c);
+                Editora e = new Editora();
+                e.setIdEditora(rs.getInt("ideditora"));
+                e.setNomeEditora(rs.getString("nomeEditora"));
+                e.setEndereco(rs.getString("endereco"));
+                e.setTelefone(rs.getString("telefone"));
+                e.setGerente(rs.getString("gerente"));
+                e.setCnpj(rs.getString("cnpj"));
+                editoras.add(e);
             }
         } catch (SQLException ex) {
             System.out.println("Erro ao listar!\n"
                     + ex.getMessage());
         }
-        return clientes;
+        return editoras;
     }
 
-    public Cliente getClienteByDoc(String cpf) {
-        Cliente c = new Cliente();
+    public Editora getEditoraByDoc(String cnpj) {
+        Editora e = new Editora();
         try {
             Connection con = Conexao.getConexao();
-            String sql = "select * from clientes where cpf = ?";
+            String sql = "select * from editoras where cnpj = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, cpf);
+            pst.setString(1, cnpj);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                c.setIdCliente(rs.getInt("idcliente"));
-                c.setNomeCliente(rs.getString("nome"));
-                c.setCpf(rs.getString("cpf"));
-                c.setEndereco(rs.getString("endereco"));
-                c.setTelefone(rs.getString("telefone"));
+                e.setIdEditora(rs.getInt("ideditora"));
+                e.setNomeEditora(rs.getString("nomeEditora"));
+                e.setEndereco(rs.getString("endereco"));
+                e.setTelefone(rs.getString("telefone"));
+                e.setGerente(rs.getString("gerente"));
+                e.setCnpj(rs.getString("cnpj"));
             }
         } catch (SQLException ex) {
             System.out.println("Erro ao consultar CPF!\n"
                     + ex.getMessage());
         }
-        return c;
+        return e;
     }
 
-    public void deletarClienteDAO(String cpf) {
+    public void deletarEditoraDAO(String cnpj) {
         try {
             Connection con = Conexao.getConexao();
-            String sql = "delete from clientes where cpf = ?";
+            String sql = "delete from editoras where cnpj = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, cpf);
+            pst.setString(1, cnpj);
             pst.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Erro ao deletar!\n"
@@ -95,16 +98,17 @@ public class ClienteDAO {
         }
     }
 
-    public void atualizaClienteByDoc(Cliente cVO) {   
+    public void atualizaEditoraByDoc(Editora cVO) {
         try {
             Connection con = Conexao.getConexao();
-            String sql = "update clientes set nome = ?,endereco = ?,telefone = ? "
-                    + "where cpf = ?";
+            String sql = "update editoras set nomeEditora = ?,endereco = ?,telefone = ?,gerente = ? "
+                    + "where cnpj = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, cVO.getNomeCliente());
+            pst.setString(1, cVO.getNomeEditora());
             pst.setString(2, cVO.getEndereco());
             pst.setString(3, cVO.getTelefone());
-            pst.setString(4, cVO.getCpf());
+            pst.setString(4, cVO.getGerente());
+            pst.setString(5, cVO.getCnpj());
             pst.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Erro ao atualizar CPF!\n"

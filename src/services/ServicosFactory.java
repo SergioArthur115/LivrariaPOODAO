@@ -10,9 +10,15 @@ package services;
  * @author 182120042
  */
 public class ServicosFactory {
+
     private static ClienteServicos cServicos = new ClienteServicos();
-    
-    public static ClienteServicos getClienteServicos(){
+    private static EditoraServicos eServicos = new EditoraServicos();
+
+    public static ClienteServicos getClienteServicos() {
         return cServicos;
+    }
+
+    public static EditoraServicos getEditoraServicos() {
+        return eServicos;
     }
 }
