@@ -34,6 +34,10 @@ public class EditoraServicos {
         EditoraDAO eDAO = DAOFactory.getEditoraDAO();
         return eDAO.getEditoraByDoc(cpf);
     }
+    public Editora buscarEditoraById(int id) {
+        EditoraDAO eDAO = DAOFactory.getEditoraDAO();
+        return eDAO.getEditoraID(id);
+    }
 
     public ArrayList<Editora> getEditoras() {
         EditoraDAO eDAO = DAOFactory.getEditoraDAO();

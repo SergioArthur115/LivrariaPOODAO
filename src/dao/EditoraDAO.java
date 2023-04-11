@@ -115,4 +115,27 @@ public class EditoraDAO {
                     + ex.getMessage());
         }
     }
+
+    public Editora getEditoraID(int ideditora) {
+        Editora e = new Editora();
+        try {
+            Connection con = Conexao.getConexao();
+            String sql = "select * from editoras where ideditora = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1,ideditora);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                e.setIdEditora(rs.getInt("ideditora"));
+                e.setNomeEditora(rs.getString("nomeEditora"));
+                e.setEndereco(rs.getString("endereco"));
+                e.setTelefone(rs.getString("telefone"));
+                e.setGerente(rs.getString("gerente"));
+                e.setCnpj(rs.getString("cnpj"));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao consultar ID!\n"
+                    + ex.getMessage());
+        }
+        return e;
+    }
 }
