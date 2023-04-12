@@ -79,7 +79,7 @@ public class EditoraDAO {
                 e.setCnpj(rs.getString("cnpj"));
             }
         } catch (SQLException ex) {
-            System.out.println("Erro ao consultar CPF!\n"
+            System.out.println("Erro ao consultar CNPJ!\n"
                     + ex.getMessage());
         }
         return e;
@@ -111,7 +111,7 @@ public class EditoraDAO {
             pst.setString(5, cVO.getCnpj());
             pst.executeUpdate();
         } catch (SQLException ex) {
-            System.out.println("Erro ao atualizar CPF!\n"
+            System.out.println("Erro ao atualizar CNPJ!\n"
                     + ex.getMessage());
         }
     }
@@ -122,7 +122,7 @@ public class EditoraDAO {
             Connection con = Conexao.getConexao();
             String sql = "select * from editoras where ideditora = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1,ideditora);
+            pst.setInt(1, ideditora);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 e.setIdEditora(rs.getInt("ideditora"));

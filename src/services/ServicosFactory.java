@@ -14,6 +14,7 @@ public class ServicosFactory {
     private static ClienteServicos cServicos = new ClienteServicos();
     private static EditoraServicos eServicos = new EditoraServicos();
     private static LivroServicos lServicos = new LivroServicos();
+    private static PedidoServicos pServicos = new PedidoServicos();
 
     public static ClienteServicos getClienteServicos() {
         return cServicos;
@@ -22,7 +23,12 @@ public class ServicosFactory {
     public static EditoraServicos getEditoraServicos() {
         return eServicos;
     }
-    public static LivroServicos getLivroServicos(){
+
+    public static LivroServicos getLivroServicos() {
         return lServicos;
+    }
+
+    public static PedidoServicos PedidoServicos() {
+        return pServicos;
     }
 }

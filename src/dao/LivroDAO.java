@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import model.Livro;
-import dao.EditoraDAO;
 import services.EditoraServicos;
 import services.ServicosFactory;
 
@@ -23,19 +22,19 @@ import services.ServicosFactory;
  */
 public class LivroDAO {
 
-    public void cadastrarLivroDAO(Livro cVO) {
+    public void cadastrarLivroDAO(Livro lVO) {
         try {
             Connection con = Conexao.getConexao();//busca conexão com o BD
             String sql;
             sql = "insert into livros values (null,?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);//cria espaço de trabalho SQL
-            pst.setString(1, cVO.getTitulo());
-            pst.setString(2, cVO.getAutor());
-            pst.setString(3, cVO.getAssunto());
-            pst.setString(4, cVO.getIsbn());
-            pst.setInt(5, cVO.getEstoque());
-            pst.setFloat(6, cVO.getPreco());
-            pst.setInt(7, cVO.getIdEditora().getIdEditora());
+            pst.setString(1, lVO.getTitulo());
+            pst.setString(2, lVO.getAutor());
+            pst.setString(3, lVO.getAssunto());
+            pst.setString(4, lVO.getIsbn());
+            pst.setInt(5, lVO.getEstoque());
+            pst.setFloat(6, lVO.getPreco());
+            pst.setInt(7, lVO.getIdEditora().getIdEditora());
             pst.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Erro ao cadastrar!\n"
@@ -92,7 +91,7 @@ public class LivroDAO {
                 l.setIdEditora(ediS.buscarEditoraById(rs.getInt("ideditora")));
             }
         } catch (SQLException ex) {
-            System.out.println("Erro ao consultar CPF!\n"
+            System.out.println("Erro ao consultar ISBN!\n"
                     + ex.getMessage());
         }
         return l;
@@ -111,20 +110,35 @@ public class LivroDAO {
         }
     }
 
-    public void atualizaLivroByDoc(Livro cVO) {
+    public void atualizaLivroByDoc(Livro lVO) {
         try {
             Connection con = Conexao.getConexao();
             String sql = "update livros set titulo = ?,autor = ?,assunto = ?,estoque = ?,preco = ? "
                     + "where isbn = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, cVO.getTitulo());
-            pst.setString(2, cVO.getAutor());
-            pst.setString(3, cVO.getAssunto());
-            pst.setInt(4, cVO.getEstoque());
-            pst.setFloat(5, cVO.getPreco());
+            pst.setString(1, lVO.getTitulo());
+            pst.setString(2, lVO.getAutor());
+            pst.setString(3, lVO.getAssunto());
+            pst.setInt(4, lVO.getEstoque());
+            pst.setFloat(5, lVO.getPreco());
+            pst.setString(6, lVO.getIsbn());
             pst.executeUpdate();
         } catch (SQLException ex) {
-            System.out.println("Erro ao atualizar CPF!\n"
+            System.out.println("Erro ao atualizar ISBN!\n"
+                    + ex.getMessage());
+        }
+    }
+        public void atualizaEstoqueByDoc(Livro lVO) {
+        try {
+            Connection con = Conexao.getConexao();
+            String sql = "update livros set estoque = ? "
+                    + "where isbn = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, lVO.getTitulo());
+            pst.setString(6, lVO.getIsbn());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Erro ao atualizar estoque!\n"
                     + ex.getMessage());
         }
     }

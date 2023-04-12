@@ -14,6 +14,7 @@ public class DAOFactory {
     private static ClienteDAO cDAO = new ClienteDAO();
     private static EditoraDAO eDAO = new EditoraDAO();
     private static LivroDAO lDAO = new LivroDAO();
+    private static PedidoDAO pDAO = new PedidoDAO();
 
     public static ClienteDAO getClienteDAO() {
         return cDAO;
@@ -25,5 +26,9 @@ public class DAOFactory {
 
     public static LivroDAO getLivroDAO() {
         return lDAO;
+    }
+
+    public static PedidoDAO getPedidoDAO() {
+        return pDAO;
     }
 }

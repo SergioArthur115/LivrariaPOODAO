@@ -4,10 +4,12 @@
  * and open the template in the editor.
  */
 package services;
+
 import dao.DAOFactory;
 import java.util.ArrayList;
 import model.Livro;
 import dao.LivroDAO;
+
 /**
  *
  * @author 182120042
@@ -37,5 +39,10 @@ public class LivroServicos {
     public ArrayList<Livro> getLivros() {
         LivroDAO lDAO = DAOFactory.getLivroDAO();
         return lDAO.getLivrosDAO();
+    }
+
+    public void atualizarEstoque(Livro cVO) {
+        LivroDAO lDAO = DAOFactory.getLivroDAO();
+        lDAO.atualizaEstoqueByDoc(cVO);
     }
 }
