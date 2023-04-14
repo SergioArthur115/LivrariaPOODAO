@@ -473,60 +473,6 @@ public class LivrariaPOO {
         }
     }
 
-    public static void vendaLivro() {
-        int idVendaLivro;
-        Cliente idCliente = null;
-        ArrayList<Livro> livros = new ArrayList<>();
-        float subTotal = 0;
-        LocalDate dataVenda = LocalDate.now();
-        ClienteServicos clienteS = ServicosFactory.getClienteServicos();
-        LivroServicos livroS = ServicosFactory.getLivroServicos();
-
-        do {
-            System.out.println("Informe o CPF do cliente: ");
-            String CPF = ler.nextLine();
-            if (Validadores.isCPF(CPF)) {
-                idCliente = cadCliente.getClienteCPF(CPF);
-                if (idCliente == null) {
-                    System.out.println("Cliente não cadastrado, tente novamente!");
-                }
-            } else {
-                System.out.println("CPF inválido, tente novamente!");
-            }
-        } while (idCliente == null);
-
-        boolean venda = true;
-        do {
-            Livro li = null;
-            String isbn;
-            do {
-                System.out.println("Informe o ISBN: ");
-                isbn = ler.nextLine();
-                li = cadLivro.getLivroISBN(isbn);
-                if (li == null) {
-                    System.out.println("Livro não encontrado, tente novamente!");
-                }
-            } while (li == null);
-            if (li.getEstoque() > 0) {
-                livros.add(li);
-                cadLivro.attEstoqueLivro(li.getIsbn());
-                subTotal += li.getPreco();
-            } else {
-                System.out.println(li.getTitulo() + "está fora de estoque");
-            }
-
-            System.out.println("Deseja comprar mais livros nesta venda?"
-                    + "\n1 - Sim | 2 - não"
-                    + "\nDigite: ");
-            if (leiaNumGPT() == 2) {
-                venda = false;
-            }
-        } while (venda);
-        idVendaLivro = cadVendaLivro.geraID();
-        VendaLivro vl = new VendaLivro(idVendaLivro, idCliente, livros, subTotal, dataVenda);
-        cadVendaLivro.addVendaLivro(vl);
-        System.out.println("|Venda|\n" + vl.toString());
-    }
 
     public static void vendaLivro2() {
         int idVendaLivro;

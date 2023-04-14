@@ -21,23 +21,4 @@ public class PedidoServicos {
         pDAO.cadastrarPedidoDAO(pVO);
     }
 
-    public void atualizarPedidoLivro(VendaLivro pVO) {
-        PedidoDAO pDAO = DAOFactory.getPedidoDAO();
-        pDAO.atualizaPedidoByDoc(pVO);
-    }
-
-    public void deletarPedidoLivro(int idpedido) {
-        PedidoDAO pDAO = DAOFactory.getPedidoDAO();
-        pDAO.deletarPedidoDAO(idpedido);
-    }
-
-    public VendaLivro buscarPedidoLivroByCOF(int idpedido) {
-        PedidoDAO pDAO = DAOFactory.getPedidoDAO();
-        return pDAO.getPedidoByDoc(idpedido);
-    }
-
-    public ArrayList<VendaLivro> getPedidoLivros() {
-        PedidoDAO pDAO = DAOFactory.getPedidoDAO();
-        return pDAO.getPedidoDAO();
-    }
 }
