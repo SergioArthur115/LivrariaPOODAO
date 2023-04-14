@@ -16,27 +16,27 @@ import model.VendaLivro;
  */
 public class PedidoServicos {
 
-    public void cadLivro(VendaLivro pVO) {
+    public void cadPedidoLivro(VendaLivro pVO) {
         PedidoDAO pDAO = DAOFactory.getPedidoDAO();
         pDAO.cadastrarPedidoDAO(pVO);
     }
 
-    public void atualizarLivro(VendaLivro pVO) {
+    public void atualizarPedidoLivro(VendaLivro pVO) {
         PedidoDAO pDAO = DAOFactory.getPedidoDAO();
         pDAO.atualizaPedidoByDoc(pVO);
     }
 
-    public void deletarLivro(int idpedido) {
+    public void deletarPedidoLivro(int idpedido) {
         PedidoDAO pDAO = DAOFactory.getPedidoDAO();
         pDAO.deletarPedidoDAO(idpedido);
     }
 
-    public VendaLivro buscarLivroByCOF(int idpedido) {
+    public VendaLivro buscarPedidoLivroByCOF(int idpedido) {
         PedidoDAO pDAO = DAOFactory.getPedidoDAO();
         return pDAO.getPedidoByDoc(idpedido);
     }
 
-    public ArrayList<VendaLivro> getLivros() {
+    public ArrayList<VendaLivro> getPedidoLivros() {
         PedidoDAO pDAO = DAOFactory.getPedidoDAO();
         return pDAO.getPedidoDAO();
     }

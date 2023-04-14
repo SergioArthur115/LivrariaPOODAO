@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import model.Livro;
 import model.VendaLivro;
 import services.ClienteServicos;
 import services.ServicosFactory;
@@ -33,8 +34,25 @@ public class PedidoDAO {
             pst.setDate(1, dataVenda);
             pst.setFloat(3, pVO.getSubTotal());
             pst.executeUpdate();
+
+            String sqlIdPedido = "select max(idpedido) as idpedido from pedidos";
+            PreparedStatement pst2 = con.prepareStatement(sqlIdPedido);
+            ResultSet rsIdPed = pst2.executeQuery();
+            int idPedido = 0;
+            while (rsIdPed.next()) {
+                idPedido = rsIdPed.getInt("idpedido");
+            }
+
+            String sqlPedLivros = "insert into pedidoslivros values (?,?)";
+            PreparedStatement pst3 = con.prepareStatement(sqlPedLivros);
+            for (Livro livro : pVO.getLivros()) {
+                pst3.setInt(1, idPedido);
+                pst3.setInt(2, livro.getIdLivro());
+                pst3.executeUpdate();
+            }
+
         } catch (SQLException ex) {
-            System.out.println("Erro ao cadastrar!\n"
+            System.out.println("Erro ao realizar venda!\n"
                     + ex.getMessage());
         }
     }

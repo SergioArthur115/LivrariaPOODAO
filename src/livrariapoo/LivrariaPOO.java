@@ -20,6 +20,7 @@ import model.VendaLivro;
 import services.ClienteServicos;
 import services.EditoraServicos;
 import services.LivroServicos;
+import services.PedidoServicos;
 import services.ServicosFactory;
 import util.Validadores;
 
@@ -478,6 +479,8 @@ public class LivrariaPOO {
         ArrayList<Livro> livros = new ArrayList<>();
         float subTotal = 0;
         LocalDate dataVenda = LocalDate.now();
+        ClienteServicos clienteS = ServicosFactory.getClienteServicos();
+        LivroServicos livroS = ServicosFactory.getLivroServicos();
 
         do {
             System.out.println("Informe o CPF do cliente: ");
@@ -525,11 +528,69 @@ public class LivrariaPOO {
         System.out.println("|Venda|\n" + vl.toString());
     }
 
+    public static void vendaLivro2() {
+        int idVendaLivro;
+        Cliente idCliente = null;
+        ArrayList<Livro> livros = new ArrayList<>();
+        float subTotal = 0;
+        LocalDate dataVenda = LocalDate.now();
+        ClienteServicos clienteS = ServicosFactory.getClienteServicos();
+        LivroServicos livroS = ServicosFactory.getLivroServicos();
+        PedidoServicos pedidoS = ServicosFactory.getPedidoServicos();
+
+        do {
+            System.out.println("Informe o CPF do cliente: ");
+            String CPF = ler.nextLine();
+            if (Validadores.isCPF(CPF)) {
+                idCliente = clienteS.buscarClienteByCOF(CPF);
+                if (idCliente.getCpf() == null) {
+                    System.out.println("Cliente não cadastrado, tente novamente!");
+                }
+            } else {
+                System.out.println("CPF inválido, tente novamente!");
+            }
+        } while (idCliente.getCpf() == null);
+
+        boolean venda = true;
+        do {
+            Livro li = null;
+            String isbn;
+            do {
+                System.out.println("Informe o ISBN: ");
+                isbn = ler.nextLine();
+                li = livroS.buscarLivroByCOF(isbn);
+                if (li.getIsbn() == null) {
+                    System.out.println("Livro não encontrado, tente novamente!");
+                }
+            } while (li.getIsbn() == null);
+            if (li.getEstoque() > 0) {
+                livros.add(li);
+                li.setEstoque(li.getEstoque() - 1);
+                livroS.atualizarEstoque(li);
+                subTotal += li.getPreco();
+            } else {
+                System.out.println(li.getTitulo() + "está fora de estoque");
+            }
+
+            System.out.println("Deseja comprar mais livros nesta venda?"
+                    + "\n1 - Sim | 2 - não"
+                    + "\nDigite: ");
+            if (leiaNumGPT() == 2) {
+                venda = false;
+            }
+        } while (venda);
+
+        idVendaLivro = cadVendaLivro.geraID();
+        VendaLivro vl = new VendaLivro(idVendaLivro, idCliente, livros, subTotal, dataVenda);
+        pedidoS.cadPedidoLivro(vl);
+        System.out.println("|Venda|\n" + vl.toString());
+    }
+
     public static void main(String[] args) {
-        cadCliente.mockClientes();
-        cadEditora.mockEditoras();
-        cadLivro.mockLivros();
-        cadVendaLivro.mockVendaLivros();
+        //cadCliente.mockClientes();
+        //cadEditora.mockEditoras();
+        //cadLivro.mockLivros();
+        //cadVendaLivro.mockVendaLivros();
 
         int opM;
         do {
@@ -600,7 +661,7 @@ public class LivrariaPOO {
                     break;
                 case 4:
                     System.out.println("|Venda Livro|");
-                    vendaLivro();
+                    vendaLivro2();
                     break;
                 case 0:
                     System.out.println("Aplicação encerrada pelo usuário!");

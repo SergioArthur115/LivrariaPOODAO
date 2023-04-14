@@ -28,7 +28,7 @@ public class ServicosFactory {
         return lServicos;
     }
 
-    public static PedidoServicos PedidoServicos() {
+    public static PedidoServicos getPedidoServicos() {
         return pServicos;
     }
 }

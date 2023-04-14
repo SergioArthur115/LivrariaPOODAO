@@ -134,8 +134,8 @@ public class LivroDAO {
             String sql = "update livros set estoque = ? "
                     + "where isbn = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, lVO.getTitulo());
-            pst.setString(6, lVO.getIsbn());
+            pst.setInt(1, lVO.getEstoque());
+            pst.setString(2, lVO.getIsbn());
             pst.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Erro ao atualizar estoque!\n"
